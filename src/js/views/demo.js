@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 import "../../styles/demo.css";
+import { Contact } from "./contact";
 
 export const Demo = () => {
 	const { store, actions } = useContext(Context);
@@ -36,8 +37,9 @@ export const Demo = () => {
 			</ul>
 			<br />
 			<Link to="/">
-				<button className="btn btn-primary">Back home</button>
+				<button className="btn btn-primary">Get back to contacts</button>
 			</Link>
+			<Contact/>
 		</div>
 	);
 };

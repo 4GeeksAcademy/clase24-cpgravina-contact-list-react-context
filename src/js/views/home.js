@@ -1,15 +1,25 @@
-import React from "react";
-import rigoImage from "../../img/rigo-baby.jpg";
+import React, { useContext, useEffect, useState } from "react"; //importar hook use context
 import "../../styles/home.css";
+import { Context } from "../store/appContext"; //importar desde appContext
+import { Link } from "react-router-dom";
+import { Contact } from "./contact";
 
-export const Home = () => (
-	<div className="text-center mt-5">
-		<h1>Hello Rigo!</h1>
-		<p>
-			<img src={rigoImage} />
-		</p>
-		<a href="#" className="btn btn-success">
-			If you see this green button, bootstrap is working
-		</a>
-	</div>
-);
+export const Home = () => {
+  const { store, actions } = useContext(Context);
+  useEffect(() => {
+    actions.getContactList();
+  }, []);
+  return (
+    <div>
+      <div className="d-flex justify-content-end w-100">
+        <Link to="/addcontact">
+          <button className="btn btn-success">Add new contact</button>
+        </Link>
+      </div>
+      {console.log(store.contactList)}
+      {store.contactList.map((contact) => {
+        return <Contact {...contact} />;
+      })}
+    </div>
+  );
+};
