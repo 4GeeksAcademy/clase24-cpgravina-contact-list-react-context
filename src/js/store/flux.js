@@ -1,4 +1,6 @@
 const getState = ({ getStore, getActions, setStore }) => {
+  const BACKEND_URL = "https://playground.4geeks.com/contact";
+
   return {
     store: {
       contacts: [],
@@ -9,13 +11,10 @@ const getState = ({ getStore, getActions, setStore }) => {
       getContactList: async () => {
         const PATH = "/agendas/cpgravina/contacts";
         try {
-          const response = await fetch(`${process.env.BACKEND_URL}${PATH}`);
-          if (!response.ok) {
-            createNewContact();
-          } else {
-            const data = await response.json();
-            setStore({ contactList: data.contacts });
-          }
+          const response = await fetch(`${BACKEND_URL}${PATH}`);
+          if (!response.ok) throw new Error("Failed to fetch contact list");
+          const data = await response.json();
+          setStore({ contactList: data.contacts });
         } catch (error) {
           console.error("Failed to fetch contacts list:", error);
         }
@@ -24,43 +23,36 @@ const getState = ({ getStore, getActions, setStore }) => {
       createNewContact: async (contact) => {
         const PATH = "/agendas/cpgravina/contacts";
         try {
-          const response = await fetch(`${process.env.BACKEND_URL}${PATH}`, {
-            method: 'POST',
+          const response = await fetch(`${BACKEND_URL}${PATH}`, {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify(contact),
           });
 
-          if (!response.ok) {
-            throw new Error('Failed to create new contact');
-          }
-
+          if (!response.ok) throw new Error("Failed to create new contact");
           const data = await response.json();
-          console.log(data);
 
           await getActions().getContactList();
         } catch (error) {
           console.error("Failed to create new contact:", error);
         }
       },
+
       updateContact: async (contact) => {
         const PATH = `/agendas/cpgravina/contacts/${contact.id}`;
         try {
-          const response = await fetch(`${process.env.BACKEND_URL}${PATH}`, {
-            method: 'PUT',
+          const response = await fetch(`${BACKEND_URL}${PATH}`, {
+            method: "PUT",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify(contact),
           });
 
-          if (!response.ok) {
-            throw new Error('Failed to update contact');
-          }
-
+          if (!response.ok) throw new Error("Failed to update contact");
           const data = await response.json();
-          console.log(data);
 
           await getActions().getContactList();
         } catch (error) {
@@ -71,13 +63,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       deleteContact: async (contactId) => {
         const PATH = `/agendas/cpgravina/contacts/${contactId}`;
         try {
-          const response = await fetch(`${process.env.BACKEND_URL}${PATH}`, {
-            method: 'DELETE',
+          const response = await fetch(`${BACKEND_URL}${PATH}`, {
+            method: "DELETE",
           });
 
-          if (!response.ok) {
-            throw new Error('Failed to delete contact');
-          }
+          if (!response.ok) throw new Error("Failed to delete contact");
 
           await getActions().getContactList();
         } catch (error) {

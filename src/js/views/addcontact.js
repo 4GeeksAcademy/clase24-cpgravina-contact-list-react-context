@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
-import "../../styles/demo.css";
 
 export const AddContact = () => {
   const { actions } = useContext(Context);
@@ -21,10 +20,8 @@ export const AddContact = () => {
 
     console.log(newContact);
 
-    // Call the action to create a new contact
     actions.createNewContact(newContact);
 
-    // Optionally reset the form
     setName("");
     setEmail("");
     setPhone("");
@@ -33,7 +30,7 @@ export const AddContact = () => {
 
   return (
     <div className="container">
-      <h1 className="text-center mb-4">Add a new contact</h1>
+      <h1 className="text-center mb-5 mt-5">Add a new contact</h1>
       <div className="row justify-content-center">
         <div className="col-md-8 col-lg-6">
           <form onSubmit={onSubmitHandler}>
@@ -101,7 +98,7 @@ export const AddContact = () => {
           </form>
           <Link to="/" className="d-block text-decoration-none mt-3">
             <p className="underline-on-hover text-center">
-              or get back to contacts
+              or get back to contacts list
             </p>
           </Link>
         </div>
